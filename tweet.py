@@ -3,7 +3,6 @@ import requests
 import datetime
 import time
 from config import *
-from collections import OrderedDict
 
 def get_quote(response):
     data = response.json()
@@ -50,7 +49,7 @@ def get_quote(response):
 
 def posttweet(data):
     try:
-        api.update_status(data)
+        api.update_status(data) 
     except tweepy.TweepError as e:
         print(e.reason)
 
@@ -67,15 +66,18 @@ date_str = [x.strftime("%d-%m-%Y") for x in date_list]
 district_id=[240, 265] # ranchi, bangalore urban
 
 def action():
+    
     pincode=[]
+    pincodes=[]
     for j in district_id:
         pin = requests.get('https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={}&date={}'.format(j, date_str[0]))
         pins = pin.json()
         for f in pins['centers']:
-            pincode.append(f['pincode'])
-    pincode = list(OrderedDict.fromkeys(pincode))
-    for pin in pincode:
-       URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={}&date={}".format(pin, date_str[0])
+            if f['pincode'] not in pincode:
+                pincode.append(f['pincode'])
+    
+    for current_pin in pincode:
+       URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={}&date={}".format(current_pin, date_str[0])
        response = requests.get(URL)
        get_quote(response)
     

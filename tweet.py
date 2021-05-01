@@ -17,11 +17,14 @@ def get_quote(response):
         price=i["fee_type"]
  
         if price=="Paid":
-            price = "Vaccination Price = " 
+            price = "Price = " 
             for f in i['vaccine_fees']: 
-                price+=f['fee']
+                if(price=="Price = "):
+                    price+=f['fee']+'\n'
+                else:
+                    break;
         else:
-            price="Vaccination Price = 0"
+            price="Price = 0\n"
         
         tweetpost=name+'\n'
         
@@ -41,11 +44,11 @@ def get_quote(response):
                 avail='Vaccines Available On:\n'
         
         if avail!='':
-            tweetpost=tweetpost+avail+dates+vax_data+price+'\n'
+            tweetpost=tweetpost+avail+dates+vax_data+price+'Pincode: '+str(i['pincode'])+'\n'
             dates=''
             avail=''
             posttweet(tweetpost)
-            time.sleep(60)
+            time.sleep(45)
 
 def posttweet(data):
     try:

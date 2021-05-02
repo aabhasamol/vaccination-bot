@@ -64,7 +64,6 @@ def action():
     date_list = [base]
     date_str = [x.strftime("%d-%m-%Y") for x in date_list]
     pincode=[]
-    pincodes=[]
     for j in district_id:
         pin = requests.get('https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={}&date={}'.format(j, date_str[0]))
         pins = pin.json()

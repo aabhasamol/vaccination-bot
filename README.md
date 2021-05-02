@@ -8,9 +8,9 @@ https://apisetu.gov.in/public/api/cowin#/Appointment%20Availability%20APIs/calen
 
 The first API was used to generate a request which gave me all the PINCODES of all the vaccination centres present in Ranchi and Bangalore.
 
-From the second API, I generated a request through which I got the JSON Object and extracted the basic details of the vaccination centres such as Name, Date, Vaccines Available, The Vaccine Administered, its cost and pincode of the Vaccination center.
+From the second API, I generated a request through which I got the JSON Object and extracted the basic details of the vaccination centres such as Name, Date, Vaccines Available, The Vaccine Administered, and pincode of the Vaccination center.
 
-Using the said extracted data I designed a tweet that would display all the necessary details. If the vaccine was free, the cost of the vaccine would be displayed as zero. If there was no vaccine information provided then the price and vaccine information were made equivalent to null.
+Using the said extracted data I designed a tweet that would display all the necessary details. 
 
 The bot has a functionality of displaying vaccine availability data for a maximum of 7 days and iterates through every vaccination center providing said covid vaccination services.
 

@@ -47,6 +47,7 @@ def get_quote(response):
             tweetpost=tweetpost+avail+dates+vax_data+price+'Pincode: '+str(i['pincode'])+'\n'
             dates=''
             avail=''
+   #         print(tweetpost)
             posttweet(tweetpost)
             time.sleep(45)
 

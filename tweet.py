@@ -17,14 +17,9 @@ def get_quote(response):
         price=i["fee_type"]
  
         if price=="Paid":
-            price = "Price = " 
-            for f in i['vaccine_fees']: 
-                if(price=="Price = "):
-                    price+=f['fee']+'\n'
-                else:
-                    break;
+            price = "Vaccine is Paid\n"
         else:
-            price="Price = 0\n"
+            price="Vaccine is Free\n"
         
         tweetpost=name+'\n'
         
@@ -36,7 +31,6 @@ def get_quote(response):
                 vax_data='Vaccine Given - '+ vaccine+'\n'
             else:
                 vax_data=''
-                price=''
             
             capacity = j['available_capacity']
             if capacity!=0:
@@ -62,15 +56,13 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(key, secret)
 api = tweepy.API(auth)
 
-numdays = 1
-
-base = datetime.datetime.today()
-date_list = [base + datetime.timedelta(days=x) for x in range(numdays)]
-date_str = [x.strftime("%d-%m-%Y") for x in date_list]
 district_id=[240, 265] # ranchi, bangalore urban
 
 def action():
-    
+
+    base = datetime.datetime.today()
+    date_list = [base]
+    date_str = [x.strftime("%d-%m-%Y") for x in date_list]
     pincode=[]
     pincodes=[]
     for j in district_id:

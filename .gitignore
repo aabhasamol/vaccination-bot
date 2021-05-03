@@ -15,6 +15,7 @@
 
 /config.py
 /config.local
+/last_seen.txt
 
 # Build results
 [Dd]ebug/

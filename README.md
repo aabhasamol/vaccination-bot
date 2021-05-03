@@ -1,6 +1,6 @@
 # Vaccination Bot
 
-This is a twitter bot which will give you Covid Vaccination Availability details for Ranchi and Bangalore.
+This is a twitter bot which will give you Covid Vaccination Availability details in your DMs for the said pincode.
 
 The following Co-Win APIs have been used for the same:
 https://apisetu.gov.in/public/api/cowin#/Appointment%20Availability%20APIs/calendarByDistrict
@@ -10,11 +10,11 @@ The first API was used to generate a request which gave me all the PINCODES of a
 
 From the second API, I generated a request through which I got the JSON Object and extracted the basic details of the vaccination centres such as Name, Date, Vaccines Available, The Vaccine Administered, and pincode of the Vaccination center.
 
-Using the said extracted data I designed a tweet that would display all the necessary details. 
+Using the said extracted data I designed a message that would display all the necessary details. 
 
 The bot has a functionality of displaying vaccine availability data for a maximum of 7 days and iterates through every vaccination center providing said covid vaccination services.
 
-The bot sends out timely updates every 8 hours for every center across Ranchi and Bangalore in the said Pincode.
+The bot sends out timely updates for every center across India.
 
 The twitter handle for the bot is @VaxUpdateBot and the link for the same is:
 https://twitter.com/VaxUpdateBot

@@ -80,6 +80,7 @@ def task(pincode):
 
 
 def reply():
+    cache = dict()
     tweets = api.mentions_timeline(read_last_seen(FILE_NAME), tweet_mode='extended')
     for tweet in reversed(tweets):
         if '#vaccineslot' in tweet.full_text.lower():
@@ -88,7 +89,11 @@ def reply():
             recipient_id=recipient.id_str
             msg=tweet.full_text
             pin=msg[-6:]
-            text=task(pin) 
+            if pin not in cache:
+                text=task(pin)
+                cache[pin]=text
+            else:
+                text=cache[pin]
             try:
                 api.send_direct_message(recipient_id=recipient_id, text=text)
                 store_last_seen(FILE_NAME, tweet.id)

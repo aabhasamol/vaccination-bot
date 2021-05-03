@@ -76,7 +76,7 @@ def task(pincode):
         response = requests.get(URL)
         return get_quote(response)
     except:
-        return "Please keep the last 6 characters of your tweet as the pincode and try again"
+        return "Incorrect Input Format\nPlease keep the last 6 characters of your tweet as the pincode and try again"
 
 
 def reply():
@@ -88,9 +88,13 @@ def reply():
             recipient_id=recipient.id_str
             msg=tweet.full_text
             pin=msg[-6:]
-            text=task(pin)  
-            api.send_direct_message(recipient_id=recipient_id, text=text)
-            store_last_seen(FILE_NAME, tweet.id)
+            text=task(pin) 
+            try:
+                api.send_direct_message(recipient_id=recipient_id, text=text)
+                store_last_seen(FILE_NAME, tweet.id)
+            except tweepy.TweepError as e:
+                print(e.reason)
+
 
 while True:
     reply()

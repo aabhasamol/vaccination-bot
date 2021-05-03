@@ -91,6 +91,8 @@ def reply():
             pin=msg[-6:]
             if pin not in cache:
                 text=task(pin)
+                if text=="Nothing available":
+                    text="Nothing available for PIN: "+str(pin)
                 cache[pin]=text
             else:
                 text=cache[pin]

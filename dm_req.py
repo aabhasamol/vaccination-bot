@@ -29,11 +29,8 @@ def get_quote(response):
     avail=''
     message=''
     for i in data["centers"]:
-        if i['district_name']=='Bangalore Urban':
-            name='Centre - ' + i['name']+', Bangalore'
-        else:
-            name='Centre - ' + i['name']+', '+ i['district_name']
-        
+
+        name='Centre - ' + i['name']+', '+ i['district_name']       
         price=i["fee_type"]
  
         if price=="Paid":

@@ -8,7 +8,7 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(key, secret)
 api = tweepy.API(auth)
 
-FILE_NAME = 'last_seen.txt'
+FILE_NAME = './last_seen.txt'
 
 def read_last_seen(FILE_NAME):
     file_read = open(FILE_NAME, 'r')
@@ -24,30 +24,39 @@ def store_last_seen(FILE_NAME, last_seen_id):
 
 
 def get_quote(response):
-    data = response.json()
+    min_age=45
     dates=''
     avail=''
     message=''
-    for i in data["centers"]:
+    vax_data=''
+    for i in response["centers"]:
 
         name='Centre - ' + i['name']+', '+ i['district_name']       
         price=i["fee_type"]
  
         if price=="Paid":
-            price = "Vaccine is Paid\n"
+            price = "Vaccination Price = " 
+            try:
+                for f in i['vaccine_fees']: 
+                    price=price+str(f['fee'])+'\n'
+            except Exception as e:
+                price="Vaccine is Paid\n"
         else:
-            price="Vaccine is Free\n"
+            price="Vaccination Price = 0\n"
         
         tweetpost=name+'\n'
         
         for j in i['sessions']:
             date=j['date']
             vaccine=j['vaccine']
-        
-            if vaccine!="":
+            if min_age > j['min_age_limit']:
+                min_age = j['min_age_limit']
+            if vaccine!="" and vax_data!='':
                 vax_data='Vaccine Given - '+ vaccine+'\n'
-            else:
+            elif vaccine!='':
                 vax_data=''
+                if price!='Free':
+                    price=''
             
             capacity = j['available_capacity']
             if capacity!=0:
@@ -55,7 +64,7 @@ def get_quote(response):
                 avail='Vaccines Available On:\n'
         
         if avail!='':
-            tweetpost=tweetpost+avail+dates+vax_data+price+'Pincode: '+str(i['pincode'])+'\n'
+            tweetpost=tweetpost+avail+dates+vax_data+'The Minimum Age is: '+str(min_age)+'\n'+price+'Pincode: '+str(i['pincode'])+'\n'
             dates=''
             avail=''
             message+=tweetpost+'\n'
@@ -70,9 +79,10 @@ def task(pincode):
     date_str = [x.strftime("%d-%m-%Y") for x in date_list]
     try:
         URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={}&date={}".format(pincode, date_str[0])
-        response = requests.get(URL)
+        response = requests.get(URL).json()
         return get_quote(response)
-    except:
+    except Exception as e:
+        print(e)
         return "Incorrect Input Format\nPlease keep the last 6 characters of your tweet as the pincode and try again"
 
 
@@ -99,10 +109,10 @@ def reply():
                 store_last_seen(FILE_NAME, tweet.id)
                 
             except tweepy.TweepError as e:
-                api.update_status("@"+twhandle+" please enable permissions to DM and try again")
+                api.update_status('@'+twhandle+' please enable permissions to DM and try again', tweet.id)
                 print(e.reason)
-
+                store_last_seen(FILE_NAME, tweet.id)
 
 while True:
     reply()
-    time.sleep(900)
+    time.sleep(600)

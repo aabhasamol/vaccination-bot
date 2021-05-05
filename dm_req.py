@@ -105,13 +105,15 @@ def reply():
                 text=cache[pin]
             try:
                 api.send_direct_message(recipient_id=recipient_id, text=text)
-                api.create_favorite(tweet.id)
-                store_last_seen(FILE_NAME, tweet.id)
-                
             except tweepy.TweepError as e:
                 api.update_status('@'+twhandle+' please enable permissions to DM and try again', tweet.id)
+                print(e.reason)    
+            try:    
+                api.create_favorite(tweet.id)
+            except tweepy.TweepError as e:
                 print(e.reason)
-                store_last_seen(FILE_NAME, tweet.id)
+            
+            store_last_seen(FILE_NAME, tweet.id)
 
 while True:
     reply()

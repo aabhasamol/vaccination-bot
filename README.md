@@ -1,6 +1,6 @@
 # Vaccination Bot
 
-This is a twitter bot which will give you Covid Vaccination Availability details in your DMs for the said pincode.
+This is a twitter bot built by Aabhas Amol, which will give you Covid Vaccination Availability details in your DMs for the said pincode.
 
 The following Co-Win APIs have been used for the same:
 https://apisetu.gov.in/public/api/cowin#/Appointment%20Availability%20APIs/calendarByDistrict
